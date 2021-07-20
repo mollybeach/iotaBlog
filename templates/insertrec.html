@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    </head>
+    <body>
+        <center> 
+            <h1>How to insert date into database with jQuery Date Picker</h1>
+            <h2>Django Python Tutorials</h2><br/>
+            <form method="POST" action="">
+{% csrf_token %}
+                <table border="1"> 
+                    <tr>
+                        <td>Employee Id</td>
+                        <td> <input type="text" placeholder=" Employee Name " required autocomplete='off' name="empname" /></td>
+                    </tr>
+                    <tr>  
+                    <td>Employee Date</td>
+                        <td> <input type="date" placeholder=" Employee Date " required autocomplete='off' name="empjoindate"/></td>
+                    </tr>
+                    <tr>
+                </table>
+                <input type="submit" value="Insert" />
+{% if messages %}
+{% for result in messages %} <h2 style="color:green">{{ result }}</h2>
+{% endfor %}
+{% endif %}
+            </form>
+        </center>
+    </body>
+</html>

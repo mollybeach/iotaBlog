@@ -12,8 +12,10 @@ urlpatterns = [
     path('posts', views.posts, name='posts'),
     path('contact', views.contact, name='contact'),
     path('about', views.about, name='about'),
-    path('about', views.about, name='about'),
-    path('posite', views.postie, name='postie')
+    #path('home', views.home, name='home'),
+    path('<int:year>/<str:month>/', views.home, name='home'),
+    path('insertrec', views.insertrec, name='insertrec')
+
 ] 
 #view.counter so lets go create that so go into the views.py 
 # put #about #whatever to scroll to that part with a href html tag 

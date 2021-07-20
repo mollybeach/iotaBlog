@@ -1,0 +1,62 @@
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
+ <script> jQuery(document).ready(function(){ 
+	$('p').css({border: '5px solid red', color: 'green', padding: '20px'});
+	
+	$('#countme').bind('click', function(){
+		
+		var current = $(this).text()
+		$(this).text(parseInt(current, 20)+1);
+		
+	}).css({
+		margin: '0 10em',
+		backgroundColor: '#ccc',
+		textAlign: 'center',
+		fontSize: '40px'
+	});
+    $(function() {
+    $("#navigation").load("navigation.html");
+});
+});
+</script>
+<style>
+@import url(https://fonts.googleapis.com/css2?family=DM+Sans);
+.month{
+    width: 90vw;
+    height: 10vh;
+    font-size: 20px;
+}
+.day{
+   width: 90vw;
+    height: 10vh;
+}
+
+th{
+    background-color: #70f;;
+}
+td{
+    background-color: #FFC0CB;
+}
+
+table{
+    cellspacing: 10px;
+}
+.mon:hover{
+    background-color: #FFA500;
+}
+
+</style>
+
+<br><br>
+
+<center>
+As of {{current_time}}
+<h1>Hello {{first__name}} ! Scheduling for  {{month}} {{year}}</h1>
+{{ cal|safe }}
+
+
+<br><br><br><br>
+
+Copyright (c){{year}}
+
+<a href='home'><button> ></button></a>
+</center>
