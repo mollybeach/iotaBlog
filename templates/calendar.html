@@ -57,8 +57,7 @@
                         <center> 
             <h1>Select date for Appointment with Madeleine Salon de Coiffure</h1>
             <h2>Please complete form</h2><br/>
-            <!--<form  id='psql_form ' class='apptform ' method="POST" action=""> -->
-            <form >
+            <form  id='psql_form ' class='apptform ' method="POST" action=""> 
 {% csrf_token %}
                 <table  class='appttable ' border="1"> 
                 <tbody class='apptbody'>
@@ -93,8 +92,8 @@
                     </tr>
                     <tbody>
                 </table>
-                <!-- <input class="btn2 "type="submit" value="Insert" id="addEvent"/>-->
-                <input class="btn2"type="button" value="Insert" id="addEvent"/>
+               <input class="btn2 "type="submit" value="Insert" id="addEvent"/>
+                <!-- <input class="btn2"type="button" value="Insert" id="addEvent"/>-->
 {% if messages %}
 {% for result in messages %} <h2 style="color:green">{{ result }}</h2>
 {% endfor %}
