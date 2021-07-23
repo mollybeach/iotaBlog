@@ -1,6 +1,6 @@
 
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db import connection
 from django.contrib import messages
 from .models import Post
@@ -14,17 +14,20 @@ def index(request):
     posts = Post.objects.all()
     return render(request, 'index.html', {'posts':posts})
 
-def post(request, pk):
+def posts(request, pk):
     posts = Post.objects.get(id=pk)
     return render(request, 'posts.html', {'posts':posts})
 
 def contact(request):
-    return render(request, 'contact.html')
+    contact = {'user': request.user}
+    return render(request, 'contact.html', contact)
+
 def posts(request):
     return render(request, 'posts.html')
 
 def about(request):
-    return render(request, 'about.html')
+    about = {'user': request.user}
+    return render(request, 'about.html', about)
 
 def insertrec(request):
     if request.method=="POST":
@@ -54,16 +57,25 @@ def calendar(request):
             return render(request, 'calendar.html')
     else:
         return render(request, 'calendar.html')
+    return redirect('/posts/')
+
+#define a schedule function that gets data from the database from the client modal
+#and sends it to a javascript script in calender.html
+#get data jsonresponse
+#send the data to the javascript
+#return the data to the calender.html
+
+
+
+def getdata(request):
+    cursor=connection.cursor()
+    cursor.execute("SELECT * FROM client")
+    data = cursor.fetchall()
+    return JsonResponse(data, safe=False)
 
 
 
 
-
-        
-        #saveobj.empid=request.POST.get('empid')
-        #saveobj.empphone=request.POST.get('empphone')
-        #saveobj.empaddress=request.POST.get('empaddress')
-        return redirect('/posts/')
 def home(request, year, month):
     firstname = 'John'
     month = month.capitalize()
@@ -79,10 +91,7 @@ def home(request, year, month):
 
     #Get current time
     current_time = now.time()
-    #year = now.strftime("%Y")
-    #month = now.strftime("%m")
-    #day = now.strftime("%d")
-    #time = now.strftime("%H:%M:%S")
+
 
 
 
@@ -98,4 +107,9 @@ def home(request, year, month):
         #'time':time,
         'current_time':current_time,
     })
-    # 'day':day
+
+
+
+
+
+

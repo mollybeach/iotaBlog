@@ -14,7 +14,8 @@ urlpatterns = [
     path('about', views.about, name='about'),
     #path('home', views.home, name='home'),
     path('<int:year>/<str:month>/', views.home, name='home'),
-    path('insertrec', views.insertrec, name='insertrec')
+    path('insertrec', views.insertrec, name='insertrec'),
+    path('calendar', views.calendar, name='calendar')
 
 ] 
 #view.counter so lets go create that so go into the views.py 

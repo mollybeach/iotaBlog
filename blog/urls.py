@@ -9,7 +9,7 @@ urlpatterns = [
     path('', include('posts.urls')) #now when this use goes to main path it should inlude the own url in posts that 
     
 
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 """log URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
