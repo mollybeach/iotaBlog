@@ -43,7 +43,7 @@ def insertrec(request):
             return render(request, 'insertrec.html')
     else:
         return render(request, 'insertrec.html')
-
+'''
 def calendar(request):
     if request.method=="POST":
         if request.POST.get('first_name') and request.POST.get('appointment_date'):
@@ -56,8 +56,32 @@ def calendar(request):
             return render(request, 'calendar.html')
     else:
         return render(request, 'calendar.html')
-
-
+'''
+def calendar(request):
+    if request.method=="POST":
+        if request.POST.get('first_name') and request.POST.get('last_name') and request.POST.get('email') and request.POST.get('service') and request.POST.get('appointment_date'):
+            saveobj = client()
+            saveobj.first_name=request.POST.get('first_name')
+            saveobj.last_name=request.POST.get('last_name')
+            saveobj.email=request.POST.get('email')
+            saveobj.service=request.POST.get('service')
+            saveobj.telephone=request.POST.get('telephone')
+            saveobj.appointment_date=request.POST.get('appointment_date')
+            #subjectforclient="Appointment with MadeleineSalonDeCoiffure on  '" + saveobj.appointment_date+ "'  for  '" + saveobj.service+ "'"
+            #subjectforhairdresser="Client Appointment with ' "+saveobj.first_name+ "' ' "+saveobj.last_name+ "' on  '" + saveobj.appointment_date+ "'  for  '" + saveobj.service+ "'"
+            #messageforclient="Thank you for scheduling an appointment with Madeleine for this date  '" + saveobj.appointment_date+ "' "
+            #messageforhairdresser="You are scheduled with' "+saveobj.first_name+ "' ' "+saveobj.last_name+ "'  for  '" + saveobj.appointment_date+ "' please make sure to follow up with your client at either' "+saveobj.email+ "' or  ' "+saveobj.telephone+ "',"
+            cursor=connection.cursor()
+            cursor.execute("INSERT INTO client(first_name, last_name, email, service, telephone, appointment_date) values(' "+saveobj.first_name+ "', ' "+saveobj.last_name+ "',  ' "+saveobj.email+ "', '" + saveobj.service+ "'" +", '"+saveobj.telephone+"', '"+saveobj.appointment_date+"')")
+            messages.success(request, "Thank you! "+saveobj.first_name+ " "+saveobj.last_name+ " has successfully scheduled appointment on "+ saveobj.appointment_date+" for "+ saveobj.service+" ")
+            #try:
+                #send_mail(subjectforclient, messageforclient, saveobj.email, [saveobj.email])
+                #send_mail(subjectforhairdresser, messageforhairdresser, saveobj.email, ['madeleinesalondecoiffure@gmail.com'])
+            #except BadHeaderError:
+                #return HttpResponse('Invalid header found.')
+            return render(request, 'calendar.html')
+    else:
+        return render(request, 'calendar.html')
 #define a schedule function that gets data from the database from the client modal
 #and sends it to a javascript script in calendar.html
 #get data jsonresponse
