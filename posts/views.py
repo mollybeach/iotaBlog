@@ -56,13 +56,13 @@ def calendar(request):
             return render(request, 'calendar.html')
     else:
         return render(request, 'calendar.html')
-    return redirect('/posts/')
+
 
 #define a schedule function that gets data from the database from the client modal
-#and sends it to a javascript script in calender.html
+#and sends it to a javascript script in calendar.html
 #get data jsonresponse
 #send the data to the javascript
-#return the data to the calender.html
+#return the data to the calendar.html
 
 
 
