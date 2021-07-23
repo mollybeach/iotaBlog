@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.db import connection
 from django.contrib import messages
 from .models import Post
-from .models import employee
+from .models import employee, client
 import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
@@ -38,6 +38,22 @@ def insertrec(request):
             return render(request, 'insertrec.html')
     else:
         return render(request, 'insertrec.html')
+
+
+
+
+def calendar(request):
+    if request.method=="POST":
+        if request.POST.get('first_name') and request.POST.get('appointment_date'):
+            saveobj = client()
+            saveobj.first_name=request.POST.get('first_name')
+            saveobj.appointment_date=request.POST.get('appointment_date')
+            cursor=connection.cursor()
+            cursor.execute("insert into client(first_name, appointment_date) values(' "+saveobj.first_name+ "', '" + saveobj.appointment_date+ "')")
+            messages.success(request, "Client name  "+saveobj.first_name+ " has successfully scheduled appointment on "+ saveobj.appointment_date)
+            return render(request, 'calendar.html')
+    else:
+        return render(request, 'calendar.html')
 
 
 
