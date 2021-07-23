@@ -8,7 +8,7 @@ from . import views
 urlpatterns = [
     #path('admin/', admin.site.urls), url admin should only be at the root level 
     path('', views.index, name='index'),
-    path('post/<str:pk>', views.post, name='post'),
+    #    path('post/<str:pk>', views.posts, name='postc'),
     path('posts', views.posts, name='posts'),
     path('contact', views.contact, name='contact'),
     path('about', views.about, name='about'),

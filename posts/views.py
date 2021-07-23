@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse, JsonResponse
 from django.db import connection
 from django.contrib import messages
+from django.contrib.auth.models import User, auth
 from .models import Post
 from .models import employee, client
 import calendar
@@ -15,7 +16,7 @@ def index(request):
     return render(request, 'index.html', {'posts':posts})
 
 def posts(request, pk):
-    posts = Post.objects.get(id=pk)
+    #posts = Post.objects.get(id=pk)
     return render(request, 'posts.html', {'posts':posts})
 
 def contact(request):
@@ -23,6 +24,7 @@ def contact(request):
     return render(request, 'contact.html', contact)
 
 def posts(request):
+    posts={'user' : request.user}
     return render(request, 'posts.html')
 
 def about(request):
@@ -41,9 +43,6 @@ def insertrec(request):
             return render(request, 'insertrec.html')
     else:
         return render(request, 'insertrec.html')
-
-
-
 
 def calendar(request):
     if request.method=="POST":
