@@ -54,9 +54,54 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consequuntur magnam, excepturi aliquid ex itaque esse est vero natus quae optio aperiam soluta voluptatibus corporis atque iste neque sit tempora!</p>
+                        <center> 
+            <h1>Select date for Appointment with Madeleine Salon de Coiffure</h1>
+            <h2>Please complete form</h2><br/>
+            <!--<form  id='psql_form ' class='apptform ' method="POST" action=""> -->
+            <form >
+{% csrf_token %}
+                <table  class='appttable ' border="1"> 
+                <tbody class='apptbody'>
+                    <!-- FIRST NAME -->
+                    <tr>
+                    <td  class='username2'>First Name</td><td> <input  class='username' type="text" placeholder=" First Name " required autocomplete='off' name="first_name" /></td>
+                    </tr>
+                    <!-- LAST NAME -->
+                    <tr>  
+                    <td  class='username2'>Last Name</td><td> <input class='username'  type="text" placeholder=" Last Name " required autocomplete='off' name="last_name"/></td>
+                    </tr>
+                    <tr>  
+                    <!-- SERVICE NAME -->
+                    <tr>  
+                    <td  class='username2'>Service Requested</td><td> <input class='username' type="text" id="eventName" name="eventName" placeholder="Service" required autocomplete='off'></td>
+                    </tr>
+                    <!-- EMAIL -->
+                    <tr>
+                    <td  class='username2'>Email</td><td> <input class='username'  type="email" placeholder=" Email "  name="email"/></td>
+                    </tr>
+                    <!-- TELEPHONE -->
+                    <tr>
+                    <td  class='username2'>Telephone</td><td> <input class='username'  type="tel" placeholder=" Telephone " required autocomplete='off' name="telephone"/></td>
+                    </tr>
+                    <!-- FROM APPOINTMENT DATE -->
+                    <tr>
+                    <td  class='username2'>From Appointment Date</td><td> <input  class='username' type="text" id="fromDate" name="fromDate" placeholder="From Date" required autocomplete='off'></td>
+                    </tr>
+                    <!-- TO APPOINTMENT DATE -->
+                    <tr>
+                    <td  class='username2'>To Appointmen Date</td><td> <input class='username' type="text" id="toDate" name="toDate" placeholder="To Date" required autocomplete='off'></td>
+                    </tr>
+                    <tbody>
+                </table>
+                <!-- <input class="btn"type="submit" value="Insert" id="addEvent"/>-->
+                <input class="btn2"type="button" value="Insert" id="addEvent"/>
+{% if messages %}
+{% for result in messages %} <h2 style="color:green">{{ result }}</h2>
+{% endfor %}
+{% endif %}
+            </form>
+            <h1> July 2021</h1>
+        </center>
                     </div>
                 </div>
             </div>
