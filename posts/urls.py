@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+#from .views import(DataView)
 
 
 #from django.urls import path, include <- add this to line 17
@@ -12,10 +13,10 @@ urlpatterns = [
     path('posts', views.posts, name='posts'),
     path('contact', views.contact, name='contact'),
     path('about', views.about, name='about'),
-    #path('home', views.home, name='home'),
-    path('<int:year>/<str:month>/', views.home, name='home'),
     path('insertrec', views.insertrec, name='insertrec'),
-    path('calendar', views.calendar, name='calendar')
+    path('calendar', views.calendar, name='calendar'),
+    path('ajax/Users', views.Users, name='Users')
+   # path('posts', DataView.as_view(), name='dataview')
 
 ] 
 #view.counter so lets go create that so go into the views.py 

@@ -14,7 +14,18 @@ class employee(models.Model):
 class client(models.Model):
     first_name=models.CharField(max_length=150)
     last_name=models.CharField(max_length=150)
-    email=models.CharField(max_length=150)
-    telephone=models.CharField(max_length=150)
-    service=models.CharField(max_length=150)
-    appointment_date=models.DateTimeField()
+    email=models.CharField(max_length=100)
+    service=models.CharField(max_length=100)
+    telephone=models.CharField(max_length=20)
+    appointment_date=models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.first_name
+class Users(models.Model):
+    first_name=models.CharField(max_length=150)
+    last_name=models.CharField(max_length=150)
+    email=models.CharField(max_length=100)
+    service=models.CharField(max_length=100)
+    telephone=models.CharField(max_length=20)
+    appointment_date=models.CharField(max_length=20)
+
