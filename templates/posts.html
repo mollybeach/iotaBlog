@@ -101,6 +101,8 @@
             </div>
         </footer>
     <h1>Users</h1>
+
+{% csrf_token %}
     <div id="userlist"></div>
     <br>
     <input type="button" id='details' value="View Details">
@@ -120,124 +122,123 @@
     <input type="button" name="add" id='add' value="Add User">
     <input type="button" name="update" id='update' value="Update User">
     <input type="button" name="delete" id='delete' value="Delete User">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script >
-/**************GET USERS****************/
-        function getUsers(response) {
-            let Json = JSON.parse(response)
-            textlist = ""
-            for (let i = 0; i < Json.length; i++) {
-                textlist += "<input type='radio'  name='user' id=" + Json[i].pk + ">" + Json[i].fields['firstname'] + " " + Json[i].fields['lastname'] + "<br>"
-            }
-            $('#firstname').val("firstname")
-            $('#lastname').val("lastname")
-            $('#email').val("email")
-            $('#service').val("service")
-            $('telephone').val("telephone")
-            $('#appointmentdate').val("appointmentdate")
-            if (textlist == "")
-                $("#userlist").html("No users available, add one below please")
-            else
-                $("#userlist").html(textlist)
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script > /**************GET USERS****************/
+function getUsers(response) {
+    let Json = JSON.parse(response)
+    textlist = ""
+    for (let i = 0; i < Json.length; i++) {
+        textlist += "<input type='radio'  name='user' id=" + Json[i].pk + ">" + Json[i].fields['firstname'] + " " + Json[i].fields['lastname'] + "<br>"
+    }
+    $('#firstname').val("firstname")
+    $('#lastname').val("lastname")
+    $('#email').val("email")
+    $('#service').val("service")
+    $('telephone').val("telephone")
+    $('#appointmentdate').val("appointmentdate")
+    if (textlist == "")
+        $("#userlist").html("No users available, add one below please")
+    else
+        $("#userlist").html(textlist)
 
-        }
-         $("#userlist").ready(function() {
-            $.ajax({
-                url: 'users/',
-                type: 'GET',
-                success: getUsers,
-            });
-        });
+}
+ $("#userlist").ready(function() {
+    $.ajax({
+        url: 'users/',
+        type: 'GET',
+        success: getUsers,
+    });
+});
 /**************ADD****************/
-        $("#add").click(function(e) {
-            let firstname = $('input[name=firstname]').val()
-            let lastname = $("input[name=lastname]").val()
-            let email = $("input[name=email]").val()
-            let service = $("input[name=service]").val()
-            let telephone = $("input[name=telephone]").val()
-            let appointmentdate = $("input[name=appointmentdate]").val()
-            $.ajax({
-                type: "POST",
-                url: '/useradded/',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'firstname': firstname,
-                    'lastname': lastname,
-                    'email': email,
-                    'service': service,
-                    'telephone': telephone,
-                    'appointmentdate': appointmentdate
-                }),
-                success: getUsers
-            });
-        });
+$("#add").click(function(e) {
+    let firstname = $('input[name=firstname]').val()
+    let lastname = $("input[name=lastname]").val()
+    let email = $("input[name=email]").val()
+    let service = $("input[name=service]").val()
+    let telephone = $("input[name=telephone]").val()
+    let appointmentdate = $("input[name=appointmentdate]").val()
+    $.ajax({
+        type: "POST",
+        url: '/useradded/',
+        dataType: 'json',
+        data: JSON.stringify({
+            'firstname': firstname,
+            'lastname': lastname,
+            'email': email,
+            'service': service,
+            'telephone': telephone,
+            'appointmentdate': appointmentdate
+        }),
+        success: getUsers
+    });
+});
 /**************DETAILS****************/
-        $("#details").click(function(e) {
-            let id = $("input[name=user]:checked").attr('id');
-            $.ajax({
-                type: "GET",
-                url: 'users/',
-                dataType: 'json',
-                success: function(response) {
-                    let Json = JSON.parse(response)
-                    for (let i = Json.length - 1; i >= 0; i--) {
-                        if (id == Json[i].pk) {
-                            $('#firstname').val(Json[i].fields['firstname'])
-                            $('#lastname').val(Json[i].fields['lastname'])
-                            $('#email').val(Json[i].fields['email'])
-                            $('#service').val(Json[i].fields['service'])
-                            $('#telephone').val(Json[i].fields['telephone'])
-                            $('#appointmentdate').val(Json[i].fields['appointmentdate'])
-                            break;
-                        }
-                    }
-                },
-            });
-        
-        });
+$("#details").click(function(e) {
+    let id = $("input[name=user]:checked").attr('id');
+    $.ajax({
+        type: "GET",
+        url: 'users/',
+        dataType: 'json',
+        success: function(response) {
+            let Json = JSON.parse(response)
+            for (let i = Json.length - 1; i >= 0; i--) {
+                if (id == Json[i].pk) {
+                    $('#firstname').val(Json[i].fields['firstname'])
+                    $('#lastname').val(Json[i].fields['lastname'])
+                    $('#email').val(Json[i].fields['email'])
+                    $('#service').val(Json[i].fields['service'])
+                    $('#telephone').val(Json[i].fields['telephone'])
+                    $('#appointmentdate').val(Json[i].fields['appointmentdate'])
+                    break;
+                }
+            }
+        },
+    });
+
+});
 
 /**************DELETE****************/
-        $("#delete").click(function(e) {
-            let id = $("input[name=user]:checked").attr('id');
-            $.ajax({
-                type: 'DELETE',
-                url: '/userremoved/',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'pk': id
-                }),
-                success: getUsers
-            });
-        
-        });
+$("#delete").click(function(e) {
+    let id = $("input[name=user]:checked").attr('id');
+    $.ajax({
+        type: 'DELETE',
+        url: '/userremoved/',
+        dataType: 'json',
+        data: JSON.stringify({
+            'pk': id
+        }),
+        success: getUsers
+    });
+
+});
 /**************UPDATE****************/    
-        $("#update").click(function() {
-            let id = $("input[name=user]:checked").attr('id');
-            let firstname = $('input[name=firstname]').val()
-            let lastname = $("input[name=lastname]").val()
-            let email = $("input[name=email]").val()
-            let service = $("input[name=service]").val()
-            let telephone = $("input[name=telephone]").val()
-            let appointmentdate = $("input[name=appointmentdate]").val()
-        
-            $.ajax({
-                url: 'userupdated/',
-                type: 'PUT',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'pk': id,
-                    'firstname': firstname,
-                    'lastname': lastname,
-                    'email': email,
-                    'service': service,
-                    'telephone': telephone,
-                    'appointmentdate': appointmentdate
-                }),
-                success: getUsers,
-            });
-        
-        });
-        </script>
+$("#update").click(function() {
+    let id = $("input[name=user]:checked").attr('id');
+    let firstname = $('input[name=firstname]').val()
+    let lastname = $("input[name=lastname]").val()
+    let email = $("input[name=email]").val()
+    let service = $("input[name=service]").val()
+    let telephone = $("input[name=telephone]").val()
+    let appointmentdate = $("input[name=appointmentdate]").val()
+
+    $.ajax({
+        url: 'userupdated/',
+        type: 'PUT',
+        dataType: 'json',
+        data: JSON.stringify({
+            'pk': id,
+            'firstname': firstname,
+            'lastname': lastname,
+            'email': email,
+            'service': service,
+            'telephone': telephone,
+            'appointmentdate': appointmentdate
+        }),
+        success: getUsers,
+    });
+
+});
+</script>
     </body>
 </html>

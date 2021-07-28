@@ -48,14 +48,14 @@ def delete_product(request):
 @csrf_exempt
 def update_product(request):
     rp=json.loads(request.body.decode('utf-8'))
-    p = User.objects.get(pk=rp['pk'])
-    p.firstname=rp['firstname']
-    p.lastname=rp['lastname']
-    p.email=rp['email']
-    p.service=rp['service']
-    p.telephone=rp['telephone']
-    p.appointmentdate=rp['appointmentdate']
-    p.save()
+    field = User.objects.get(pk=rp['pk'])
+    field.firstname=rp['firstname']
+    field.lastname=rp['lastname']
+    field.email=rp['email']
+    field.service=rp['service']
+    field.telephone=rp['telephone']
+    field.appointmentdate=rp['appointmentdate']
+    field.save()
     return get(request)
 
 def contact(request):
@@ -67,16 +67,16 @@ def about(request):
 def calendar(request):
     if request.method=="POST":
         if request.POST.get('firstname') and request.POST.get('lastname') and request.POST.get('email') and request.POST.get('service') and request.POST.get('appointmentdate'):
-            saveobj = User()
-            saveobj.firstname=request.POST.get('firstname')
-            saveobj.lastname=request.POST.get('lastname')
-            saveobj.email=request.POST.get('email')
-            saveobj.service=request.POST.get('service')
-            saveobj.telephone=request.POST.get('telephone')
-            saveobj.appointmentdate=request.POST.get('appointmentdate')
+            field = User()
+            field.firstname=request.POST.get('firstname')
+            field.lastname=request.POST.get('lastname')
+            field.email=request.POST.get('email')
+            field.service=request.POST.get('service')
+            field.telephone=request.POST.get('telephone')
+            field.appointmentdate=request.POST.get('appointmentdate')
             cursor=connection.cursor()
-            cursor.execute("INSERT INTO User(firstname, lastname, email, service, telephone, appointmentdate) values(' "+saveobj.firstname+ "', ' "+saveobj.lastname+ "',  ' "+saveobj.email+ "', '" + saveobj.service+ "'" +", '"+saveobj.telephone+"', '"+saveobj.appointmentdate+"')")
-            messages.success(request, "Thank you! "+saveobj.firstname+ " "+saveobj.lastname+ " has successfully scheduled appointment on "+ saveobj.appointmentdate+" for "+ saveobj.service+" ")
+            cursor.execute("INSERT INTO User (firstname, lastname, email, service, telephone, appointmentdate) values(' "+field.firstname+ "', ' "+field.lastname+ "',  ' "+field.email+ "', '" + field.service+ "'" +", '"+field.telephone+"', '"+field.appointmentdate+"')")
+            messages.success(request, "Thank you! "+field.firstname+ " "+field.lastname+ " has successfully scheduled appointment on "+ field.appointmentdate+" for "+ field.service+" ")
         return render(request, 'calendar.html')
     else:
         return render(request, 'calendar.html')
