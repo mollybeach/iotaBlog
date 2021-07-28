@@ -13,32 +13,16 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='client',
+            name='User',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=150)),
-                ('last_name', models.CharField(max_length=150)),
+                ('firstname', models.CharField(max_length=150)),
+                ('lastname', models.CharField(max_length=150)),
                 ('email', models.CharField(max_length=100)),
                 ('service', models.CharField(max_length=100)),
                 ('telephone', models.CharField(max_length=20)),
-                ('appointment_date', models.CharField(max_length=20)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='employee',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('empname', models.CharField(max_length=100)),
-                ('empjoindate', models.DateTimeField()),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Post',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100)),
-                ('body', models.CharField(max_length=1000000)),
-                ('created_at', models.DateTimeField(blank=True, default=datetime.datetime.now)),
+                ('appointmentdate', models.CharField(max_length=20)),
             ],
         ),
     ]
+

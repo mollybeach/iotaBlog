@@ -13,17 +13,19 @@ urlpatterns = [
     path('posts', views.posts, name='posts'),
     path('contact', views.contact, name='contact'),
     path('about', views.about, name='about'),
-    path('insertrec', views.insertrec, name='insertrec'),
     path('calendar', views.calendar, name='calendar'),
-    path('ajax/Users', views.Users, name='Users')
-   # path('posts', DataView.as_view(), name='dataview')
+     path('users/', views.get, name='get_user'),
+    path('userupdated/', views.update_product, name='update_user'),
+    path('useradded/', views.post_product, name='post_user'),
+    path('userremoved/', views.delete_product, name='delete_user'),
 
 ] 
 #view.counter so lets go create that so go into the views.py 
 # put #about #whatever to scroll to that part with a href html tag 
 
 
-
+  #  path('User', views.update, name='update')
+   # path('posts', DataView.as_view(), name='dataview')
 
 
 """myapp URL Configuration
