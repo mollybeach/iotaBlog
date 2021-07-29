@@ -15,9 +15,9 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('calendar', views.calendar, name='calendar'),
      path('users/', views.get, name='get_user'),
-    path('userupdated/', views.update_product, name='update_user'),
-    path('useradded/', views.post_product, name='post_user'),
-    path('userremoved/', views.delete_product, name='delete_user'),
+    path('userupdated/', views.update_user, name='update_user'),
+    path('useradded/', views.post_user, name='post_user'),
+    path('userremoved/', views.delete_user, name='delete_user'),
 
 ] 
 #view.counter so lets go create that so go into the views.py 

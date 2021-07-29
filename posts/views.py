@@ -24,13 +24,16 @@ appname = 'Users'
 def posts(request):
     return render(request, "posts.html")
 
+def calendar(request):
+    return render(request, 'calendar.html')
+    
 @csrf_exempt
 def get(request):
     context= serializers.serialize('json', User.objects.all())
     return JsonResponse(context, safe=False)
 
 @csrf_exempt
-def post_product(request):
+def post_user(request):
     if request.method == 'POST':
         rp = json.loads(request.body.decode('utf-8'))
         user = User(firstname=rp['firstname'],lastname=rp['lastname'],email=rp['email'],service=rp['service'],telephone=rp['telephone'],appointmentdate=rp['appointmentdate'])
@@ -40,13 +43,13 @@ def post_product(request):
     
 
 @csrf_exempt
-def delete_product(request):
+def delete_user(request):
     rp=json.loads(request.body.decode('utf-8'))
     User.objects.get(pk=rp['pk']).delete()
     return get(request)
 
 @csrf_exempt
-def update_product(request):
+def update_user(request):
     rp=json.loads(request.body.decode('utf-8'))
     field = User.objects.get(pk=rp['pk'])
     field.firstname=rp['firstname']
@@ -64,22 +67,6 @@ def contact(request):
 def about(request):
     return render(request, 'about.html', about)
 
-def calendar(request):
-    if request.method=="POST":
-        if request.POST.get('firstname') and request.POST.get('lastname') and request.POST.get('email') and request.POST.get('service') and request.POST.get('appointmentdate'):
-            field = User()
-            field.firstname=request.POST.get('firstname')
-            field.lastname=request.POST.get('lastname')
-            field.email=request.POST.get('email')
-            field.service=request.POST.get('service')
-            field.telephone=request.POST.get('telephone')
-            field.appointmentdate=request.POST.get('appointmentdate')
-            cursor=connection.cursor()
-            cursor.execute("INSERT INTO User (firstname, lastname, email, service, telephone, appointmentdate) values(' "+field.firstname+ "', ' "+field.lastname+ "',  ' "+field.email+ "', '" + field.service+ "'" +", '"+field.telephone+"', '"+field.appointmentdate+"')")
-            messages.success(request, "Thank you! "+field.firstname+ " "+field.lastname+ " has successfully scheduled appointment on "+ field.appointmentdate+" for "+ field.service+" ")
-        return render(request, 'calendar.html')
-    else:
-        return render(request, 'calendar.html')
 
 
 
