@@ -13,6 +13,7 @@ from django.template import RequestContext, loader
 from calendar import HTMLCalendar
 from datetime import datetime
 from posts import models
+from json import dumps
 import json
 from django.core import serializers
 
@@ -25,7 +26,10 @@ def posts(request):
     return render(request, "posts.html")
 
 def calendar(request):
-    return render(request, 'calendar.html')
+    eventdata = serializers.serialize('json', User.objects.all())
+    #eventsjson = JsonResponse(eventdata, safe=False)
+    result = dumps(eventdata)
+    return render(request, 'calendar.html', {'result': result})
 
 @csrf_exempt
 def get(request):

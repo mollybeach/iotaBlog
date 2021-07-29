@@ -12,20 +12,7 @@
             <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
             <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.js"></script>
         <script>
-            let events = [
-                {
-                id: "1",
-                title: "Test Event",
-                start: "2021-07-21T10:30:00",
-                end: "2021-07-23T11:30:00"
-                },
-                {
-                id: "2",
-                title: "Test Event2",
-                start: "2021-07-18T06:30:00",
-                end: "2021-07-19T07:30:00"
-                }
-            ];
+
         function getUsers(response) {
             let Json = JSON.parse(response)
             textlist = ""
@@ -52,10 +39,27 @@
             });
         });
 
+        let resultStr = JSON.parse("{{result|escapejs}}");
+        let resultObj = JSON.parse(resultStr);
+        let events = [];  
+        for (let i = 0; i < resultObj.length; i++) {
+            let eventItem = resultObj[i];
+            let obj = {
+                "id": eventItem.pk,
+                "title": eventItem.fields["firstname"] + " " + eventItem.fields["lastname"] + " " + eventItem.fields["service"],
+                "start": eventItem.fields["telephone"] ,
+                "end": eventItem.fields["appointmentdate"] 
+               // "allDay": false,
+            }
+            events.push(obj);
+        }
 
-    /************FULL CALENDAR*************/
+    console.log(events);
+/************FULL CALENDAR*************/
+
         $(document).ready(function() {
-        
+
+     //   console.log(JSON.stringify(events));
          
             $("#calendar").fullCalendar({
             header: {
@@ -78,10 +82,39 @@
             $("#eventModal").find('.modal-body').append('<p>'+$(this).data('end')+'</p>');
         });
             $("#add").on("click", function () {
+            let firstname = $('input[name=firstname]').val()
+            let lastname = $("input[name=lastname]").val()
+            let email = $("input[name=email]").val()
+            let service = $("input[name=service]").val()
+            let telephone = $("input[name=telephone]").val()
+            let appointmentdate = $("input[name=appointmentdate]").val()
+            let jsonobj = {
+                "firstname": firstname,
+                "lastname": lastname,
+                "email": email,
+                "service": service,
+                "telephone": telephone,
+                "appointmentdate": appointmentdate
+            }
+        console.log(jsonobj)
+            $.ajax({
+                type: "POST",
+                url: '/useradded/',
+                dataType: 'json',
+                data: JSON.stringify({
+                    'firstname': firstname,
+                    'lastname': lastname,
+                    'email': email,
+                    'service': service,
+                    'telephone': telephone,
+                    'appointmentdate': appointmentdate
+                }),
+                success: getUsers
+            });
             events.push({
-                title: $("#firstname").val(),
-                start: $("#telephone").val(),
-                end: $("#appointmentdate").val()
+                title: service,
+                start: telephone,
+                end: appointmentdate
                 });
                 $("#calendar").fullCalendar("renderEvent", events[events.length - 1], true);
             });
@@ -303,9 +336,16 @@
             </div>
             <h1> July 2021</h1>
         </center>
+    
+{% if events %}
+{% for result in events %} <h2 style="color:green">{{ result }}</h2> <script>console.log(events)</script>
+{% endfor %}
+{% endif %}
         <center>
+       
         <form >
 {% csrf_token %}
+
                 <table  class='appttable ' border="1"> 
                 <tbody class='apptbody'>
                     <div id='userlist' class='apptform '> </div>
@@ -352,29 +392,7 @@
             <!---  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
     <script>/**************GET USERS**********************/
 
-        /**************ADD****************/
-        $("#add").click(function(e) {
-            let firstname = $('input[name=firstname]').val()
-            let lastname = $("input[name=lastname]").val()
-            let email = $("input[name=email]").val()
-            let service = $("input[name=service]").val()
-            let telephone = $("input[name=telephone]").val()
-            let appointmentdate = $("input[name=appointmentdate]").val()
-            $.ajax({
-                type: "POST",
-                url: '/useradded/',
-                dataType: 'json',
-                data: JSON.stringify({
-                    'firstname': firstname,
-                    'lastname': lastname,
-                    'email': email,
-                    'service': service,
-                    'telephone': telephone,
-                    'appointmentdate': appointmentdate
-                }),
-                success: getUsers
-            });
-        });
+ 
         /**************DETAILS****************/
             $("#details").click(function(e) {
                 let id = $("input[name=user]:checked").attr('id');
@@ -400,46 +418,46 @@
 
             });
 
-/**************DELETE****************/
-$("#delete").click(function(e) {
-    let id = $("input[name=user]:checked").attr('id');
-    $.ajax({
-        type: 'DELETE',
-        url: '/userremoved/',
-        dataType: 'json',
-        data: JSON.stringify({
-            'pk': id
-        }),
-        success: getUsers
-    });
-
-});
-/**************UPDATE****************/    
-$("#update").click(function() {
-    let id = $("input[name=user]:checked").attr('id');
-    let firstname = $('input[name=firstname]').val()
-    let lastname = $("input[name=lastname]").val()
-    let email = $("input[name=email]").val()
-    let service = $("input[name=service]").val()
-    let telephone = $("input[name=telephone]").val()
-    let appointmentdate = $("input[name=appointmentdate]").val()
-
-    $.ajax({
-        url: 'userupdated/',
-        type: 'PUT',
-        dataType: 'json',
-        data: JSON.stringify({
-            'pk': id,
-            'firstname': firstname,
-            'lastname': lastname,
-            'email': email,
-            'service': service,
-            'telephone': telephone,
-            'appointmentdate': appointmentdate
-        }),
-        success: getUsers,
-    });
-});
+            /**************DELETE****************/
+            $("#delete").click(function(e) {
+                let id = $("input[name=user]:checked").attr('id');
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/userremoved/',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        'pk': id
+                    }),
+                    success: getUsers
+                });
+            
+            });
+            /**************UPDATE****************/    
+            $("#update").click(function() {
+                let id = $("input[name=user]:checked").attr('id');
+                let firstname = $('input[name=firstname]').val()
+                let lastname = $("input[name=lastname]").val()
+                let email = $("input[name=email]").val()
+                let service = $("input[name=service]").val()
+                let telephone = $("input[name=telephone]").val()
+                let appointmentdate = $("input[name=appointmentdate]").val()
+            
+                $.ajax({
+                url: 'userupdated/',
+                type: 'PUT',
+                dataType: 'json',
+                data: JSON.stringify({
+                    'pk': id,
+                    'firstname': firstname,
+                    'lastname': lastname,
+                    'email': email,
+                    'service': service,
+                    'telephone': telephone,
+                    'appointmentdate': appointmentdate
+                }),
+                success: getUsers,
+            });
+        });
  </script>
                     </div>
                 </div>
