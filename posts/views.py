@@ -26,7 +26,7 @@ def posts(request):
 
 def calendar(request):
     return render(request, 'calendar.html')
-    
+
 @csrf_exempt
 def get(request):
     context= serializers.serialize('json', User.objects.all())
@@ -41,7 +41,6 @@ def post_user(request):
         context = serializers.serialize('json', User.objects.all())
         return JsonResponse(context, safe=False)
     
-
 @csrf_exempt
 def delete_user(request):
     rp=json.loads(request.body.decode('utf-8'))
