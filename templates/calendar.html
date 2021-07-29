@@ -42,12 +42,12 @@
         let resultObj = JSON.parse(resultStr);
         let events = [];  
         for (let i = 0; i < resultObj.length; i++) {
-            let eventItem = resultObj[i];
+            let event = resultObj[i];
             let obj = {
-                "id": eventItem.pk,
-                "title": eventItem.fields["firstname"] + " " + eventItem.fields["lastname"] + " " + eventItem.fields["service"],
-                "start": eventItem.fields["telephone"] ,
-                "end": eventItem.fields["appointmentdate"] 
+                "id": event.pk,
+                "title": event.fields["firstname"] + " " + event.fields["lastname"] + " " + event.fields["service"],
+                "start": event.fields["telephone"] ,
+                "end": event.fields["appointmentdate"] 
                // "allDay": false,
             }
             events.push(obj);
@@ -69,10 +69,13 @@
         seconds = seconds < 10 ? '0' + seconds : seconds;
         let strTime = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
         $('#currentTime').html(strTime);
-
 /***************CALENDAR*************/
         $(document).ready(function() {
             $("#calendar").fullCalendar({
+/************MODAL******************/
+            eventClick: function(calEvent, jsEvent, view) {
+            alert('Event: ' + calEvent.title);
+            },
             header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -84,14 +87,8 @@
                 eventLimit: true,
                 selectMirror: true,
                 events: events
+            
             });
-
-        $("#calendar").on('click', '.fc-eventye', function() {
-            $("#eventModal").modal('show');
-            $("#eventModal").find('.modal-body').html($(this).text());
-            $("#eventModal").find('.modal-body').append('<p>'+$(this).data('start')+'</p>');
-            $("#eventModal").find('.modal-body').append('<p>'+$(this).data('end')+'</p>');
-        });
 /***************ADD *********************/
             $("#add").on("click", function () {
             let firstname = $('input[name=firstname]').val()
@@ -163,7 +160,10 @@
             $("#datepicker").datepicker("option", "dateFormat", "DD, d MM, yy");
             $("#datepicker").datepicker( "setDate" , "+0d" );
             });
-        });   
+        });
+
+
+
 </script>
 <style>
 /*=====================================HEADER NAV START ============================================*/
@@ -425,7 +425,7 @@ font-size: 0.7rem;
             font-size:.85em;
             line-height:1.3;
             border-radius:3px;border:
-            1px solid #3a87ad;
+            1px solid #EE9BA3;
             background-color:#EE9BA3;
             font-weight:400
             }      
@@ -470,6 +470,16 @@ font-size: 0.7rem;
             width: 200px;
             border:none;
         }
+        .fc-event{
+            position:relative;
+            display:block;
+            font-size:.85em;
+            line-height:1.3;
+            border-radius:3px;border:
+            1px solid #EE9BA3;
+            background-color:#EE9BA3;
+            font-weight:400
+        } 
 
 /*=====================================CALENDAR MODS END ============================================*/
 /*=====================================*OTHER STYLES START ============================================*/
@@ -510,6 +520,7 @@ input.username{
     color: white;
     font-size: 14px;
 }
+
 /*=====================================STYLES END ============================================*/
         </style>
     </head>
@@ -576,11 +587,10 @@ input.username{
                     <tr>
                     <td  class='username2'>Telephone</td><td> <input id='telephone' class='username'  type="tel" placeholder=" telephone " required autocomplete='off' name="telephone"/></td>
                     </tr>
-                    <!-- FROM APPOINTMENT DATE -->
+                    <!-- APPOINTMENT DATE -->
                     <tr>
-                    <td  class='username2'>From Appointment Date</td><td> <input  id='appointmentdate'class='username' type="text" id="appointmentdate" name="appointmentdate" placeholder="Appointment Date" required autocomplete='off'></td>
+                    <td  class='username2'>Appointment Date</td><td> <input  id='appointmentdate'class='username' type="text" id="appointmentdate" name="appointmentdate" placeholder="Appointment Date" required autocomplete='off'></td>
                     </tr>
-
                     <tbody>
                 </table>
                 <br>
@@ -657,13 +667,19 @@ input.username{
                 success: getUsers,
             });
         });
+
+    </script>   
+    </main>
+    <footer class="footer">
+
+        <div class="footer__copyright">
+
 </script>
                     </div>
                 </div>
             </div>
-            </center>
-        </main>
-
+        </center>
+    </main>
     <!---  <script src=" {% static "js/scripts.js" %}"  ></script>-->
     <!--FOOTER-->
     <footer class="footer">
@@ -686,10 +702,10 @@ input.username{
             </ul>
             <div class='footer__imgcontainer'> <a class="" href="#"><img class='footer__logo' src="https://www.dropbox.com/s/8m1yd3e958c9ic2/skeletoncrest.svg?raw=1" alt="" /></a></div>
         <div class="footer__social">
-            <a class="" href="https://www.facebook.com/madeleine.beach.3"><img class="footer__icon" src="https://res.cloudinary.com/dmoo9az8w/image/upload/v1475715813/facebook_eknuzn.svg" alt="facebook" /></a>
-            <a class="" href="https://twitter.com/madecoiffure"><img class="footer__icon" src="https://res.cloudinary.com/dmoo9az8w/image/upload/v1475715814/twitter_nfohqw.svg" alt="twitter" /></a>
-            <a class="" href="https://www.instagram.com/madeleinebeachh/"><img class="footer__icon" src="https://res.cloudinary.com/dmoo9az8w/image/upload/v1475715814/instagram_u4wt1i.svg" alt="instagram" /></a>
-            <a class="" href="https://pin.it/5qgAohs"><img class="footer__icon" src="https://res.cloudinary.com/dmoo9az8w/image/upload/v1475715814/pinterest_vtom0c.svg" alt="pinterest" /></a>
+            <a class="footer_icon" href="https://www.facebook.com/madeleine.beach.3"><img class="footer__icon" src="https://res.cloudinary.com/dmoo9az8w/image/upload/v1475715813/facebook_eknuzn.svg" alt="facebook" /></a>
+            <a class="footer_icon" href="https://twitter.com/madecoiffure"><img class="footer__icon" src="https://res.cloudinary.com/dmoo9az8w/image/upload/v1475715814/twitter_nfohqw.svg" alt="twitter" /></a>
+            <a class="footer_icon" href="https://www.instagram.com/madeleinebeachh/"><img class="footer__icon" src="https://res.cloudinary.com/dmoo9az8w/image/upload/v1475715814/instagram_u4wt1i.svg" alt="instagram" /></a>
+            <a class="footer_icon" href="https://pin.it/5qgAohs"><img class="footer__icon" src="https://res.cloudinary.com/dmoo9az8w/image/upload/v1475715814/pinterest_vtom0c.svg" alt="pinterest" /></a>
         </div>
     </footer>
     </body>
